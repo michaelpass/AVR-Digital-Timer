@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm Tue Feb 07 16:44:04 2023
+AVRASM ver. 2.2.8  c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm Tue Feb 07 17:32:14 2023
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
@@ -988,21 +988,61 @@ AVRASM ver. 2.2.8  c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main
                                  ; Lab02.asm
                                  ;
                                  ; Created: 2/7/2023 3:11:50 PM
-                                 ; Author : stlondon
+                                 ; Author : stlondon, mpass
                                  ;
                                  
                                  
                                  ; Replace with your application code
+                                 
+000000 9a20                      sbi DDRB,0
+000001 9a21                      sbi DDRB,1
+000002 9a22                      sbi DDRB,2
+                                 
                                  start:
-000000 e700                      ldi R16, 0x70 ; load pattern to display
-000001 d000                      rcall display
+                                 ;0 = 3F
+                                 ;1 = 06
+                                 ;2 = 5B
+                                 ;3 = 4F
+                                 ;4 = 66
+                                 ;5 = 6D
+                                 ;6 = 7D
+                                 ;7 = 07
+                                 ;8 = 7F
+                                 ;9 = 
+000003 e607                      ldi R16, 0x67 ; load pattern to display
+000004 d000                      rcall display
                                  display: 
-                                 ; backup used registers on stack
-000002 930f                      push R16
-000003 931f                      push R17
-000004 b71f                      in R17, SREG
-000005 931f                      push R17
-000006 e018                      ldi R17, 8 ; loop --> test all 8 bits
+                                 	; backup used registers on stack
+000005 930f                      	push R16
+000006 931f                      	push R17
+000007 b71f                      	in R17, SREG
+000008 931f                      	push R17
+000009 e018                      	ldi R17, 8 ; loop --> test all 8 bits
+                                 loop:
+00000a 1f00                      	rol R16 ; rotate left trough Carry
+00000b f010                      	BRCS set_ser_in_1 ; branch if Carry is set
+                                 	; put code here to set SER to 0
+00000c 9828                      	cbi PORTB,0
+00000d c001                      	rjmp end
+                                 set_ser_in_1:
+                                 	; put code here to set SER to 1
+00000e 9a28                      	sbi PORTB,0
+                                 end:
+                                 	; put code here to generate SRCLK pulse
+00000f 982a                      	cbi PORTB,2
+000010 0000                      	nop
+000011 9a2a                      	sbi PORTB,2
+000012 951a                      	dec R17
+000013 f7b1                      	brne loop
+                                 	; put code here to generate RCLK pulse
+000014 9829                      	cbi PORTB,1
+000015 0000                      	nop
+000016 9a29                      	sbi PORTB,1
+                                 	; restore registers from stack
+000017 911f                      	pop R17
+000018 bf1f                      	out SREG, R17
+000019 911f                      	pop R17
+00001a 910f                      	pop R16
 
 
 RESOURCE USE INFORMATION
@@ -1022,7 +1062,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:   2 r17:   4 r18:   0 r19:   0 r20:   0 
+r13:   0 r14:   0 r15:   0 r16:   4 r17:   8 r18:   0 r19:   0 r20:   0 
 r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 2 out of 35 (5.7%)
@@ -1030,29 +1070,29 @@ Registers used: 2 out of 35 (5.7%)
 "ATmega328P" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
+brcc  :   0 brcs  :   1 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
-brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   0 cbr   :   0 
+brne  :   1 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   3 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   0 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
+cpi   :   0 cpse  :   0 dec   :   1 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   0 jmp   :   0 
 ld    :   0 ldd   :   0 ldi   :   2 lds   :   0 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   0 pop   :   0 
-push  :   3 rcall :   1 ret   :   0 reti  :   0 rjmp  :   0 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
+neg   :   0 nop   :   2 or    :   0 ori   :   0 out   :   1 pop   :   3 
+push  :   3 rcall :   1 ret   :   1 reti  :   0 rjmp  :   1 rol   :   1 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   6 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 4 out of 113 (3.5%)
+Instructions used: 15 out of 113 (13.3%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00000e     14      0     14   32768   0.0%
+[.cseg] 0x000000 0x000038     56      0     56   32768   0.2%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

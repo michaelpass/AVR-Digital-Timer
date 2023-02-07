@@ -22,7 +22,10 @@
   <FILE>Lab02.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <start><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>10</LINE></start>
-  <display><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>13</LINE></display>
+  <start><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>15</LINE></start>
+  <display><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>28</LINE></display>
+  <loop><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>35</LINE></loop>
+  <set_ser_in_1><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>41</LINE></set_ser_in_1>
+  <end><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>44</LINE></end>
  </LABELS>
 </ASSEMBLER_INFO>
