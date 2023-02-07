@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm Tue Feb 07 17:32:14 2023
+AVRASM ver. 2.2.8  c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm Tue Feb 07 17:55:55 2023
 
 
 EQU  SIGNATURE_000 0000001e
@@ -695,8 +695,12 @@ EQU  ACIaddr      0000002e
 EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
-CSEG start        00000003
-CSEG display      00000005
-CSEG loop         0000000a
-CSEG set_ser_in_1 0000000e
-CSEG end          0000000f
+CSEG start        00000004
+CSEG display      00000008
+CSEG loop         0000000d
+CSEG set_ser_in_1 00000011
+CSEG end          00000012
+EQU  count        00006b33
+CSEG delay_long   0000001f
+CSEG d1           00000021
+CSEG d2           00000022

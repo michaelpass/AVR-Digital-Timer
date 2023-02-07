@@ -22,10 +22,13 @@
   <FILE>Lab02.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <start><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>15</LINE></start>
-  <display><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>28</LINE></display>
-  <loop><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>35</LINE></loop>
-  <set_ser_in_1><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>41</LINE></set_ser_in_1>
-  <end><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>44</LINE></end>
+  <start><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>16</LINE></start>
+  <display><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>31</LINE></display>
+  <loop><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>38</LINE></loop>
+  <set_ser_in_1><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>44</LINE></set_ser_in_1>
+  <end><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>47</LINE></end>
+  <delay_long><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>68</LINE></delay_long>
+  <d1><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>71</LINE></d1>
+  <d2><FILE>c:\users\stlondon\Documents\Atmel Studio\7.0\Lab02\Lab02\main.asm</FILE><LINE>73</LINE></d2>
  </LABELS>
 </ASSEMBLER_INFO>
