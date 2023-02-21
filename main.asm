@@ -54,11 +54,35 @@ rjmp start ; Return to start. Main loop of program.
 
 wait_for_release_button0:
 ; Note: Button is Active-Low. So I/O bit will be set when released.
+; Behavior: If button is held for >= 1s, counter is reset.
+; Otherwise, if released before 1s, counter is incremented.
+	
+	clr R21 ; Initialize button timer to 0
+
+button0_held:
+	rcall delay_10ms
+	rcall increment_button_timer
 	sbis PINB, BUTTON0
-	rjmp wait_for_release_button0
+	rjmp button0_held
+
+	cpi R21, 100
+	breq reset_counter
+
 	rcall increment_counter
+	rjmp end_wait_for_release_button0
+
+reset_counter:
+	clr R16
+
+end_wait_for_release_button0:
 	ret
 
+increment_button_timer:
+	cpi R21, 100
+	breq end_increment_button_timer
+	inc R21
+end_increment_button_timer:
+	ret
 
 wait_for_release_button1:
 ; Note: Button is Active-Low. So I/O bit will be set when released.
@@ -327,7 +351,9 @@ end_resolve:
 
 display:
 ; Input - R19: digit1, R17:digit0 
-rcall resolve_digits
+
+	; First, translate value in R16 into bit patterns to display in R19 and R17 with resolve_digits
+	rcall resolve_digits
 
 	; backup used registers on stack
 	push R17
@@ -389,24 +415,56 @@ end_digit0:
 	pop R17
 
 	ret
-	 
-/*
-.equ count = 0xFFFF			; assign a 16-bit value to symbol "count"
+	
+	
+; ------------ Delay times ------------
 
-delay_long:
-	ldi r30, low(count)	;1  	; r31:r30  <-- load a 16-bit value into counter register for outer loop
-	ldi r31, high(count);1
-d1:
-	ldi   r29, 0xFF	;1	    	; r29 <-- load a 8-bit value into counter register for inner loop
-d2:
-	nop	;1							; no operation
-	dec   r29  ;1          		; r29 <-- r29 - 1
-	brne  d2	;1							; branch to d2 if result is not "0"
-	sbiw r31:r30, 1		;2			; r31:r30 <-- r31:r30 - 1
-	brne d1		;1							; branch to d1 if result is not "0"
-	ret		;4									; return
+.equ count10ms = 0x00C9			; assign a 16-bit value to symbol "count"
 
-*/
+delay_10ms:
+	ldi r30, low(count10ms)	 		; r31:r30  <-- load a 16-bit value into counter register for outer loop
+	ldi r31, high(count10ms)
+d1_10ms:
+	ldi   r29, 0x84			   	; r29 <-- load a 8-bit value into counter register for inner loop
+d2_10ms:
+	nop
+	dec   r29
+	brne  d2_10ms
+	sbiw r31:r30, 1
+	brne d1_10ms
+	ret
+
+.equ count1s = 0x6E09
+
+
+delay_1s:
+	ldi r30, low(count1s)	 		; r31:r30  <-- load a 16-bit value into counter register for outer loop
+	ldi r31, high(count1s)
+d1_1s:
+	ldi   r29, 0x5E			   	; r29 <-- load a 8-bit value into counter register for inner loop
+d2_1s:
+	nop
+	dec   r29
+	brne  d2_1s
+	sbiw r31:r30, 1
+	brne d1_1s
+	ret
+
+
+.equ count500ms = 0xDC12
+
+delay_500ms:
+	ldi r30, low(count500ms)	 		; r31:r30  <-- load a 16-bit value into counter register for outer loop
+	ldi r31, high(count500ms)
+d1_500ms:
+	ldi   r29, 0x17			   	; r29 <-- load a 8-bit value into counter register for inner loop
+d2_500ms:
+	nop
+	dec   r29
+	brne  d2_500ms
+	sbiw r31:r30, 1
+	brne d1_500ms
+	ret
 
 
 .exit
