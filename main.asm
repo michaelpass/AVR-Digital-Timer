@@ -46,6 +46,7 @@ rcall wait_for_release_button0
 sbis PINB, BUTTON1
 rcall wait_for_release_button1
 
+rcall resolve_digits
 rcall display
 
 rjmp start ; Return to start. Main loop of program.
@@ -88,7 +89,7 @@ wait_for_release_button1:
 ; Note: Button is Active-Low. So I/O bit will be set when released.
 	sbis PINB, BUTTON1
 	rjmp wait_for_release_button1
-	rcall decrement_counter
+	rcall begin_timer
 	ret
 
 increment_counter:
@@ -105,6 +106,53 @@ decrement_counter:
 	breq end_decrement_counter
 	dec R16
 end_decrement_counter:
+	ret
+
+
+begin_timer:
+	rcall delay_1s
+	rcall decrement_counter
+	rcall resolve_digits
+	rcall display
+	cpi R16, 0
+	breq flash_end_sequence
+	rjmp begin_timer
+
+flash_end_sequence:
+	rcall delay_1s ; Must delay 1s to fully display 00 before displaying "--"
+	
+	rcall display_dashes
+	rcall delay_500ms
+	rcall display_nothing
+	rcall delay_500ms
+
+	rcall display_dashes
+	rcall delay_500ms
+	rcall display_nothing
+	rcall delay_500ms
+
+	rcall display_dashes
+	rcall delay_500ms
+	rcall display_nothing
+	rcall delay_500ms
+
+	rcall display_dashes
+	rcall delay_500ms
+	rcall display_nothing
+	rcall delay_500ms
+
+	ret
+
+display_nothing:
+	ldi R19, 0x00
+	ldi R17, 0x00
+	rcall display
+	ret
+
+display_dashes:
+	ldi R19, 0x40
+	ldi R17, 0x40
+	rcall display
 	ret
 
 resolve_digits:
@@ -351,9 +399,6 @@ end_resolve:
 
 display:
 ; Input - R19: digit1, R17:digit0 
-
-	; First, translate value in R16 into bit patterns to display in R19 and R17 with resolve_digits
-	rcall resolve_digits
 
 	; backup used registers on stack
 	push R17
