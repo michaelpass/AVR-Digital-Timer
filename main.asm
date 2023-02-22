@@ -473,6 +473,8 @@ d1_10ms:
 	ldi   r29, 0x84			   	; r29 <-- load a 8-bit value into counter register for inner loop
 d2_10ms:
 	nop
+	nop
+	nop
 	dec   r29
 	brne  d2_10ms
 	sbiw r31:r30, 1
@@ -489,6 +491,8 @@ d1_1s:
 	ldi   r29, 0x5E			   	; r29 <-- load a 8-bit value into counter register for inner loop
 d2_1s:
 	nop
+	nop
+	nop
 	dec   r29
 	brne  d2_1s
 	sbiw r31:r30, 1
@@ -504,6 +508,8 @@ delay_500ms:
 d1_500ms:
 	ldi   r29, 0x17			   	; r29 <-- load a 8-bit value into counter register for inner loop
 d2_500ms:
+	nop
+	nop
 	nop
 	dec   r29
 	brne  d2_500ms
