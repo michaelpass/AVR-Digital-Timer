@@ -1,5 +1,7 @@
 ;
-; Lab02.asm
+; main.asm
+
+; This project represents a digital timer that allows the user to set a value between 0 and 25 and then countdown in 1s intervals.
 ;
 ; Created: 2/7/2023 3:11:50 PM
 ; Author : stlondon, mpass
